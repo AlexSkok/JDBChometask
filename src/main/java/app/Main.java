@@ -15,13 +15,14 @@ public class Main {
         User bob = new User("Bob", 54, "sailer", 65.8F);
 
         DatabaseConnector connection = new DatabaseConnector();
+        Connection connect = connection.connect(url, username, password);
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        EmployeeDAO employeeDAO = new EmployeeDAO(connection.connect(url, username, password));
+        EmployeeDAO employeeDAO = new EmployeeDAO(connect);
         try {
 //             add
             Optional<User> add = employeeDAO.addEmployee(vasyl);
@@ -32,7 +33,7 @@ public class Main {
 //            all list
             employeeDAO.findAll();
         } finally {
-            connection.disconnect(connection.connect(url, username, password));
+            connection.disconnect(connect);
         }
 
     }
