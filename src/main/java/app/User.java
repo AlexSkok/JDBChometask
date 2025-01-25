@@ -7,6 +7,16 @@ public class User{
     private String positions;
     private float salary;
 
+    public User() {
+    }
+
+    public User(String name, int age, String positions, float salary) {
+        this.name = name;
+        this.age = age;
+        this.positions = positions;
+        this.salary = salary;
+    }
+
     public int getId() {
         return id;
     }

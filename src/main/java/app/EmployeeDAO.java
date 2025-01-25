@@ -61,6 +61,30 @@ public class EmployeeDAO {
         }
     }
 
-    public void updateEmployee(){}
-    public void deleteEmployee(){}
+    public Optional<User> updateEmployee(Integer id, User user) throws DAOExeption {
+        try (PreparedStatement statement = connection.prepareStatement("update employees set name=?, age=?, positions=?, salary=? where id=" + id)){
+            statement.setString(1, user.getName());
+            statement.setInt(2, user.getAge());
+            statement.setString(3, user.getPositions());
+            statement.setFloat(4, user.getSalary());
+
+            int rowUpdate = statement.executeUpdate();
+            if (rowUpdate == 0){
+                System.out.println("Співробітника за даним id не знайдено");
+            }
+            return Optional.of(user);
+        } catch (SQLException e) {
+            throw new DAOExeption();
+        }
+    }
+    public void deleteEmployee(Integer id) throws DAOExeption{
+        try (PreparedStatement statement = connection.prepareStatement("delete from employees where id=" + id)){
+            int rowUpdate = statement.executeUpdate();
+            if (rowUpdate == 0){
+                System.out.println("Співробітника за даним id не знайдено");
+            }
+        } catch (SQLException e) {
+            throw new DAOExeption();
+        }
+    }
 }
